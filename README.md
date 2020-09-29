@@ -8,7 +8,7 @@
 an example using `echo.websocket.org`:
 
 ```scala
-import dom.lom.websocket._
+import net.domlom.websocket._
 
 // setup a behavior to println received messages
 val behavior =
