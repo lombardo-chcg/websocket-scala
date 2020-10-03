@@ -1,6 +1,5 @@
 package net.domlom.websocket.model
 
-
 import net.domlom.websocket.WsResponse
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -13,9 +12,6 @@ trait Websocket {
 
   def sendSync(message: String): Try[WsResponse]
 
-  // shorthand alias
-  def send(message: String): Try[WsResponse] = sendSync(message)
-
   def sendAsync(message: String)(
     implicit ec: ExecutionContext
   ): Future[WsResponse]
@@ -24,5 +20,6 @@ trait Websocket {
 
   def isOpen: Boolean
 
-  def debugMode: Boolean
+  // sendSync shorthand
+  def send(message: String): Try[WsResponse] = sendSync(message)
 }

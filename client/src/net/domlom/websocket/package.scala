@@ -1,6 +1,6 @@
 package net.domlom
 
-import net.domlom.websocket.lib.BaseWebsocketClient
+import net.domlom.websocket.lib.WebsocketBase
 import net.domlom.websocket.model.{ConnectionClosedDetails, Websocket}
 
 package object websocket {
@@ -11,10 +11,10 @@ package object websocket {
       * WebsocketClient
       *
       * @constructor
-      * @param url
-      * @param behavior
-      * @param requestHeaders
-      * @param debugMode
+      * @param url ws:// or wss://
+      * @param behavior a WebsocketBehavior instance
+      * @param requestHeaders to be included on the initial connection request
+      * @param debugMode print debug messages to stdout during login attempts
       *
       */
     def apply(
@@ -22,15 +22,22 @@ package object websocket {
       behavior: WebsocketBehavior,
       requestHeaders: Map[String, String] = Map(),
       debugMode: Boolean = false
-    ) =
-      new BaseWebsocketClient(
+    ): Websocket =
+      new WebsocketBase(
         url = url,
         behavior = behavior,
         requestHeaders = requestHeaders,
         debugMode = debugMode
-      )
+      ).api
   }
 
+  /**
+    *
+    * @param onOpen  An event listener to be called when the connection is opened.
+    * @param onMessage An event listener to be called when a message is received from the server.
+    * @param onClose An event listener to be called when the connection is closed.
+    * @param onError An event listener to be called when an error occurs.
+    */
   case class WebsocketBehavior(
     onOpen: Websocket => Unit,
     onMessage: (Websocket, WsMessage) => Unit,
@@ -54,6 +61,9 @@ package object websocket {
 
   object WebsocketBehavior {
 
+    /**
+      *  A no-op implementation, suitable as a foundation for building custom behaviors
+      */
     def empty: WebsocketBehavior =
       WebsocketBehavior(
         onOpen = connection => {},
@@ -62,7 +72,10 @@ package object websocket {
         onError = (connection, throwable) => {}
       )
 
-    def printlnBehavior: WebsocketBehavior =
+    /**
+      * A `println` implementation
+      */
+    def debugBehavior: WebsocketBehavior =
       WebsocketBehavior(
         onOpen = connection => println("onOpen"),
         onMessage = (connection, message) => println(s"onMessage: $message"),
@@ -71,8 +84,16 @@ package object websocket {
       )
   }
 
+  /**
+    * this message wrapper will become a more robust type in future releases
+    * and also includes a context message that can be used for logging.
+    */
   case class WsMessage(value: String)
 
+  /**
+    * WsResponse signifies a successful Websocket client interaction,
+    * and also includes a context message that can be used for logging.
+    */
   case class WsResponse(message: String)
 
 }
