@@ -40,7 +40,7 @@ class EchoTest extends AnyFunSuite with Eventually with BeforeAndAfterAll {
     server.stop()
   }
 
-  test("counting to 4 local test") {
+  test("counting to 4") {
 
     assert(!socket.isOpen)
 
