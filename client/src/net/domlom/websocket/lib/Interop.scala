@@ -1,7 +1,12 @@
 package net.domlom.websocket.lib
 
 import javax.websocket.ClientEndpointConfig
-import org.glassfish.tyrus.client.{ClientManager, ClientProperties, SslContextConfigurator, SslEngineConfigurator}
+import org.glassfish.tyrus.client.{
+  ClientManager,
+  ClientProperties,
+  SslContextConfigurator,
+  SslEngineConfigurator
+}
 
 object Interop {
 
@@ -11,7 +16,7 @@ object Interop {
       .configurator(new CustomConfigurator(requestHeaders))
       .build
 
-  def client(debugMode: Boolean, disableHostVerification: Boolean) : ClientManager = {
+  def client(debugMode: Boolean, disableHostVerification: Boolean): ClientManager = {
     val client = ClientManager.createClient
 
     if (debugMode) {

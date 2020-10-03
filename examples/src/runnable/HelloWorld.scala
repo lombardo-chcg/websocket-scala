@@ -2,7 +2,6 @@ package runnable
 
 import net.domlom.websocket._
 
-
 object HelloWorld {
 
   def main(args: Array[String]): Unit = {

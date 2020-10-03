@@ -11,7 +11,7 @@ import org.glassfish.tyrus.client.ClientManager
 import scala.concurrent.{ExecutionContext, Future, Promise}
 import scala.util.{Failure, Try}
 
-class WebsocketFactory(
+class WebsocketBase(
   val url: String,
   behavior: WebsocketBehavior,
   requestHeaders: Map[String, String] = Map(),
@@ -20,7 +20,12 @@ class WebsocketFactory(
 ) {
   self =>
 
+  new { self =>
+
+  }
+
   val api = new Websocket {
+
     override def url: String =
       self.url
 

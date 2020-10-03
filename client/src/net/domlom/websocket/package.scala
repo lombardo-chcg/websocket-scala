@@ -1,6 +1,6 @@
 package net.domlom
 
-import net.domlom.websocket.lib.WebsocketFactory
+import net.domlom.websocket.lib.WebsocketBase
 import net.domlom.websocket.model.{ConnectionClosedDetails, Websocket}
 
 package object websocket {
@@ -23,7 +23,7 @@ package object websocket {
       requestHeaders: Map[String, String] = Map(),
       debugMode: Boolean = false
     ): Websocket =
-      new WebsocketFactory(
+      new WebsocketBase(
         url = url,
         behavior = behavior,
         requestHeaders = requestHeaders,

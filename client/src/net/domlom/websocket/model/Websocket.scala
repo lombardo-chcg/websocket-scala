@@ -1,6 +1,5 @@
 package net.domlom.websocket.model
 
-
 import net.domlom.websocket.WsResponse
 
 import scala.concurrent.{ExecutionContext, Future}
