@@ -2,14 +2,14 @@ import mill._, scalalib._, scalafmt._
 import mill.scalalib.publish.{Developer, License, PomSettings, VersionControl}
 
 object client extends ScalaModule with ScalafmtModule with PublishModule {
-  def scalaVersion = "2.12.11"
+  override def scalaVersion = "2.12.11"
 
   override def ivyDeps = Agg(
   	ivy"javax.websocket:javax.websocket-client-api:1.1",
     ivy"org.glassfish.tyrus.bundles:tyrus-standalone-client:1.9"
   )
 
-  def publishVersion = "0.0.1"
+  override def publishVersion = "0.0.2"
 
   override def artifactName = "websocket-scala"
 
@@ -28,9 +28,11 @@ object client extends ScalaModule with ScalafmtModule with PublishModule {
 }
 
 object examples extends ScalaModule with ScalafmtModule {
-  def scalaVersion = "2.12.11"
+  override def scalaVersion = "2.12.11"
 
   override def moduleDeps = Seq(client)
+
+  override def mainClass = Some("runnable.HelloWorld")
 
   object test extends Tests {
     override def ivyDeps = Agg(
@@ -41,6 +43,6 @@ object examples extends ScalaModule with ScalafmtModule {
       ivy"org.glassfish.tyrus:tyrus-container-grizzly-server:1.12"
     )
 
-    def testFrameworks = Seq("org.scalatest.tools.Framework")
+    override def testFrameworks = Seq("org.scalatest.tools.Framework")
   }
 }
