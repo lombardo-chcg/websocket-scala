@@ -1,5 +1,6 @@
 package net.domlom.websocket
 
+import net.domlom.websocket.model.ConnectionClosedDetails
 import net.domlom.websocket.util.TestUtil
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.concurrent.Eventually
@@ -23,6 +24,7 @@ class EchoTest extends AnyFunSuite with Eventually with BeforeAndAfterAll {
         if (n >= 4) connection.close() else connection.send(s"${n + 1}")
       }
       .setOnClose { reason =>
+        assert(reason == ConnectionClosedDetails.wsSpecCodes(1000))
         println("OnClose: " + reason)
       }
       .setOnError { (connection, throwable) =>

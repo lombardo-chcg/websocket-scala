@@ -8,7 +8,7 @@ package object websocket {
   object Websocket {
 
     /**
-      * WebsocketClient
+      * Websocket object for managing a connection with an endpoint.
       *
       * @constructor
       * @param url ws:// or wss://

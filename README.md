@@ -3,6 +3,26 @@
 `websocket-scala` is a Scala Websocket client library.  It is based on the `WebSocket` interface as defined in the [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket).  `websocket-scala` provides a simple API for connecting to a websocket endpoint and managing a duplex communication channel with the server. 
 
 
+## dependency
+
+*note: only scala `2.12` at this time*
+
+sbt
+```
+libraryDependencies += "net.domlom" %% "websocket-scala" % "0.0.2"
+
+```
+
+gradle
+```
+compile "net.domlom:websocket-scala_2.12:0.0.2"
+```
+
+ammonite
+```
+import $ivy.`net.domlom::websocket-scala:0.0.2`
+```
+
 ## `Hello World`
 
 an example using `echo.websocket.org`:
@@ -11,11 +31,13 @@ an example using `echo.websocket.org`:
 import net.domlom.websocket._
 
 // setup a behavior to println received messages
-val behavior =
+val behavior = {
   WebsocketBehavior.empty
     .setOnMessage { (_, message) =>
       println(s"Rec'd message: ${message.value}")
     }
+    .setOnClose(reason => println(reason))
+  }
 
 // initialize a client
 val socket = Websocket("wss://echo.websocket.org", behavior)
@@ -25,8 +47,8 @@ for {
   _ <- socket.connect()
   _ <- socket.send(s"Hello World")
   _ = Thread.sleep(500)
-  _ <- socket.close()
-} yield ()
+  r <- socket.close()
+} yield r
 
 
 // Rec'd message: Hello World

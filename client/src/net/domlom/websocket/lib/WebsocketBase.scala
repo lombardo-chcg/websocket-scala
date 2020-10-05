@@ -54,7 +54,7 @@ class WebsocketBase(
   private val client: ClientManager = Interop.client(debugMode, disableHostVerification)
 
   private def connect(): Try[WsResponse] =
-    wrapUnsafe("Websocket Connected", () => client.connectToServer(endpoint, cec, uri))
+    wrapUnsafe(s"Websocket Connection Opened - $url", () => client.connectToServer(endpoint, cec, uri))
 
   private def sendSync(message: String): Try[WsResponse] = sessionOpt match {
     case Some(session) =>
@@ -110,11 +110,7 @@ class WebsocketBase(
 
     override def onClose(session: Session, closeReason: CloseReason): Unit = {
       sessionOpt = None
-      val details = ConnectionClosedDetails(
-        closeReason.getCloseCode.getCode,
-        closeReason.getReasonPhrase
-      )
-      behavior.onClose(details)
+      behavior.onClose(ConnectionClosedDetails(closeReason))
     }
 
     override def onError(session: Session, error: Throwable): Unit =
