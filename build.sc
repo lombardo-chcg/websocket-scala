@@ -1,8 +1,11 @@
-import mill._, scalalib._, scalafmt._
+import mill._, scalalib._, scalafmt._, publish._
 import mill.scalalib.publish.{Developer, License, PomSettings, VersionControl}
 
-object client extends ScalaModule with ScalafmtModule with PublishModule {
-  override def scalaVersion = "2.12.11"
+val scalaVersions = List("2.11.12", "2.12.7", "2.13.2")
+
+object client extends Cross[ClientModule](scalaVersions:_*)
+
+class ClientModule(val crossScalaVersion: String)  extends CrossScalaModule with PublishModule with ScalafmtModule {
 
   override def ivyDeps = Agg(
   	ivy"javax.websocket:javax.websocket-client-api:1.1",
@@ -27,10 +30,11 @@ object client extends ScalaModule with ScalafmtModule with PublishModule {
   )  
 }
 
-object examples extends ScalaModule with ScalafmtModule {
-  override def scalaVersion = "2.12.11"
+object examples extends Cross[ExamplesModule](scalaVersions:_*)
 
-  override def moduleDeps = Seq(client)
+class ExamplesModule(val crossScalaVersion: String) extends CrossScalaModule with ScalafmtModule {
+
+  override def moduleDeps = Seq(client())
 
   override def mainClass = Some("runnable.HelloWorld")
 
