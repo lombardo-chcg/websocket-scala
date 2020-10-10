@@ -1,7 +1,7 @@
 package net.domlom.websocket.util
 
-import javax.websocket.server.{HandshakeRequest, ServerEndpoint, ServerEndpointConfig}
 import javax.websocket.{HandshakeResponse, OnError, OnMessage, Session}
+import javax.websocket.server.{HandshakeRequest, ServerEndpoint, ServerEndpointConfig}
 import org.glassfish.tyrus.server.Server
 
 import scala.util.Try
@@ -32,9 +32,9 @@ object TestUtil {
       val options = (8000 to 65535)
       options(scala.util.Random.nextInt(options.length - 1))
     }
-    val contextPath = "/ws"
-    val url = s"$host:$port$contextPath"
-    val clientUrl = s"ws://$url"
+    val contextPath  = "/ws"
+    val url          = s"$host:$port$contextPath"
+    val clientUrl    = s"ws://$url"
     val echoEndpoint = s"$clientUrl/echo"
 
     println(s"Creating server @ $url")
@@ -55,9 +55,9 @@ object TestUtil {
     import scala.collection.JavaConverters._
 
     override def modifyHandshake(
-      sec: ServerEndpointConfig,
-      request: HandshakeRequest,
-      response: HandshakeResponse
+        sec: ServerEndpointConfig,
+        request: HandshakeRequest,
+        response: HandshakeResponse
     ): Unit =
       request.getHeaders.asScala.foreach(println)
   }

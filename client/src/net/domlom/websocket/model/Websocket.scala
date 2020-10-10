@@ -13,7 +13,8 @@ trait Websocket {
   def sendSync(message: String): Try[WsResponse]
 
   def sendAsync(message: String)(
-    implicit ec: ExecutionContext
+      implicit
+      ec: ExecutionContext
   ): Future[WsResponse]
 
   def close(): Try[WsResponse]

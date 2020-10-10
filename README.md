@@ -1,7 +1,8 @@
 # websocket-scala
 
-`websocket-scala` is a Scala Websocket client library.  It is based on the `WebSocket` interface as defined in the [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket).  `websocket-scala` provides a simple API for connecting to a websocket endpoint and managing a duplex communication channel with the server. 
+[![Actions Status](https://github.com/lombardo-chcg/websocket-scala/workflows/Scala%20CI/badge.svg)](https://github.com/lombardo-chcg/websocket-scala/workflows/Scala%20CI/badge.svg)
 
+`websocket-scala` is a simple Scala Websocket client library.  It is based on the `WebSocket` interface as defined in the [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket), which is available as a JavaScript object in HTML5-compliant web browsers.  The goal of the library is to provide the same simple & intuitive Websocket client api for JVM Scala apps. 
 
 ## installation
 
@@ -11,22 +12,22 @@ Supported scala versions:
 - 2.12
 - 2.13
 
-sbt
+##### sbt
 ```
-libraryDependencies += "net.domlom" %% "websocket-scala" % "0.0.2"
+libraryDependencies += "net.domlom" %% "websocket-scala" % "0.0.3"
 
 ```
 
-gradle
+##### gradle
 ```
 scalaC = "2.12"
 
-compile "net.domlom:websocket-scala_$scalaC:0.0.2"
+compile "net.domlom:websocket-scala_$scalaC:0.0.3"
 ```
 
-ammonite
+##### ammonite
 ```
-import $ivy.`net.domlom::websocket-scala:0.0.2`
+import $ivy.`net.domlom::websocket-scala:0.0.3`
 ```
 
 ## `Hello World`
@@ -40,7 +41,7 @@ import net.domlom.websocket._
 val behavior = {
   WebsocketBehavior.empty
     .setOnMessage { (_, message) =>
-      println(s"Rec'd message: ${message.value}")
+      println(s"Message from server: ${message.value}")
     }
     .setOnClose(reason => println(reason))
   }
@@ -57,7 +58,7 @@ for {
 } yield r
 
 
-// Rec'd message: Hello World
+// Message from server: Hello World
 
 ```
 

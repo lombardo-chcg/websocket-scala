@@ -4,25 +4,21 @@ import java.net.URI
 
 import javax.websocket.MessageHandler.Whole
 import javax.websocket._
-import net.domlom.websocket.model.{ConnectionClosedDetails, Websocket}
 import net.domlom.websocket.{WebsocketBehavior, WsMessage, WsResponse}
+import net.domlom.websocket.model.{ConnectionClosedDetails, Websocket}
 import org.glassfish.tyrus.client.ClientManager
 
 import scala.concurrent.{ExecutionContext, Future, Promise}
 import scala.util.{Failure, Try}
 
 class WebsocketBase(
-  val url: String,
-  behavior: WebsocketBehavior,
-  requestHeaders: Map[String, String] = Map(),
-  disableHostVerification: Boolean = false,
-  debugMode: Boolean = false
+    val url: String,
+    behavior: WebsocketBehavior,
+    requestHeaders: Map[String, String] = Map(),
+    disableHostVerification: Boolean = false,
+    debugMode: Boolean = false
 ) {
   self =>
-
-  new { self =>
-
-  }
 
   val api = new Websocket {
 
@@ -56,12 +52,13 @@ class WebsocketBase(
   private def connect(): Try[WsResponse] =
     wrapUnsafe(s"Websocket Connection Opened - $url", () => client.connectToServer(endpoint, cec, uri))
 
-  private def sendSync(message: String): Try[WsResponse] = sessionOpt match {
-    case Some(session) =>
-      wrapUnsafe("sendSync success", () => session.getBasicRemote.sendText(message))
-    case None =>
-      Failure(new RuntimeException("sendSync called but no active connection found"))
-  }
+  private def sendSync(message: String): Try[WsResponse] =
+    sessionOpt match {
+      case Some(session) =>
+        wrapUnsafe("sendSync success", () => session.getBasicRemote.sendText(message))
+      case None =>
+        Failure(new RuntimeException("sendSync called but no active connection found"))
+    }
 
   private def sendAsync(message: String)(implicit ec: ExecutionContext): Future[WsResponse] =
     sessionOpt match {
@@ -74,18 +71,20 @@ class WebsocketBase(
   private def isOpen: Boolean =
     sessionOpt.fold(false)(_.isOpen)
 
-  private def close(): Try[WsResponse] = sessionOpt match {
-    case Some(session) =>
-      wrapUnsafe("Websocket connection closed", () => session.close())
-    case None =>
-      Failure(new RuntimeException("close called but no active connection found"))
-  }
+  private def close(): Try[WsResponse] =
+    sessionOpt match {
+      case Some(session) =>
+        wrapUnsafe("Websocket connection closed", () => session.close())
+      case None =>
+        Failure(new RuntimeException("close called but no active connection found"))
+    }
 
   private def wrapUnsafe[A](tag: String, f: () => A): Try[WsResponse] =
     Try(f()).map(_ => WsResponse(tag))
 
   private def wrapJavaFuture[T](tag: String, f: java.util.concurrent.Future[T])(
-    implicit ec: ExecutionContext
+      implicit
+      ec: ExecutionContext
   ): Future[WsResponse] = {
     val p = Promise[T]()
     Future {

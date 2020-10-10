@@ -1,9 +1,9 @@
 package net.domlom.websocket
 
+import net.domlom.websocket.util.TestUtil
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.concurrent.Eventually
 import org.scalatest.funsuite.AnyFunSuite
-import net.domlom.websocket.util.TestUtil
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
