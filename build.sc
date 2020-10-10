@@ -12,7 +12,7 @@ class ClientModule(val crossScalaVersion: String)  extends CrossScalaModule with
     ivy"org.glassfish.tyrus.bundles:tyrus-standalone-client:1.9"
   )
 
-  override def publishVersion = "0.0.2"
+  override def publishVersion = "0.0.3"
 
   override def artifactName = "websocket-scala"
 

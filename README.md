@@ -3,9 +3,13 @@
 `websocket-scala` is a Scala Websocket client library.  It is based on the `WebSocket` interface as defined in the [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket).  `websocket-scala` provides a simple API for connecting to a websocket endpoint and managing a duplex communication channel with the server. 
 
 
-## dependency
+## installation
 
-*note: only scala `2.12` at this time*
+Supported scala versions: 
+
+- 2.11
+- 2.12
+- 2.13
 
 sbt
 ```
@@ -15,7 +19,9 @@ libraryDependencies += "net.domlom" %% "websocket-scala" % "0.0.2"
 
 gradle
 ```
-compile "net.domlom:websocket-scala_2.12:0.0.2"
+scalaC = "2.12"
+
+compile "net.domlom:websocket-scala_$scalaC:0.0.2"
 ```
 
 ammonite
