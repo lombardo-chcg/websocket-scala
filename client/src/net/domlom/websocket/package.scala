@@ -15,13 +15,12 @@ package object websocket {
       * @param behavior a WebsocketBehavior instance
       * @param requestHeaders to be included on the initial connection request
       * @param debugMode print debug messages to stdout during login attempts
-      *
       */
     def apply(
-      url: String,
-      behavior: WebsocketBehavior,
-      requestHeaders: Map[String, String] = Map(),
-      debugMode: Boolean = false
+        url: String,
+        behavior: WebsocketBehavior,
+        requestHeaders: Map[String, String] = Map(),
+        debugMode: Boolean = false
     ): Websocket =
       new WebsocketBase(
         url = url,
@@ -32,17 +31,16 @@ package object websocket {
   }
 
   /**
-    *
     * @param onOpen  An event listener to be called when the connection is opened.
     * @param onMessage An event listener to be called when a message is received from the server.
     * @param onClose An event listener to be called when the connection is closed.
     * @param onError An event listener to be called when an error occurs.
     */
   case class WebsocketBehavior(
-    onOpen: Websocket => Unit,
-    onMessage: (Websocket, WsMessage) => Unit,
-    onClose: ConnectionClosedDetails => Unit,
-    onError: (Websocket, Throwable) => Unit
+      onOpen: Websocket => Unit,
+      onMessage: (Websocket, WsMessage) => Unit,
+      onClose: ConnectionClosedDetails => Unit,
+      onError: (Websocket, Throwable) => Unit
   ) {
     self =>
 

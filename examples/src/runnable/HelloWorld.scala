@@ -11,7 +11,7 @@ object HelloWorld {
     val behavior = {
       WebsocketBehavior.empty
         .setOnMessage { (_, message) =>
-          println(s"Rec'd message: ${message.value}")
+          println(s"Message from server: ${message.value}")
         }
         .setOnClose(reason => println(reason))
     }
@@ -26,7 +26,7 @@ object HelloWorld {
       _ = Thread.sleep(500)
       r <- socket.close()
     } yield r
-
+    // Message from server: Hello World
 
     // example 2
     val sock = Websocket("wss://echo.websocket.org", behavior)
@@ -51,10 +51,9 @@ object HelloWorld {
         }
 
     // Step 2 - extend the base template with specific business logic
-    val mySpecificUseCase = myBaseWsTemplate
-      .setOnMessage { (connection, message) =>
-        val response = doBusinessValueStuff(message)
-        connection.send(response)
-      }
+    val mySpecificUseCase = myBaseWsTemplate.setOnMessage { (connection, message) =>
+      val response = doBusinessValueStuff(message)
+      connection.send(response)
+    }
   }
 }
