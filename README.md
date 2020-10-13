@@ -3,11 +3,11 @@
 [![Actions Status](https://github.com/lombardo-chcg/websocket-scala/workflows/Scala%20CI/badge.svg)](https://github.com/lombardo-chcg/websocket-scala/workflows/Scala%20CI/badge.svg)
 [![Latest version](https://index.scala-lang.org/lombardo-chcg/websocket-scala/websocket-scala/latest.svg)](https://index.scala-lang.org/lombardo-chcg/websocket-scala/websocket-scala)
 
-`websocket-scala` is a simple Scala Websocket client library.  It is based on the `WebSocket` interface as defined in the [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket), which is available as a JavaScript object in HTML5-compliant web browsers.  The goal of the library is to provide the same simple & intuitive Websocket client api for JVM Scala apps. 
+`websocket-scala` is a simple Scala Websocket client library.  It is based on the `WebSocket` interface as defined in the [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket), which is available as a JavaScript object in HTML5-compliant web browsers.  The goal of the library is to provide the same simple & intuitive Websocket client api for JVM Scala apps.
 
 ## installation
 
-Supported scala versions: 
+Supported scala versions:
 
 - 2.11
 - 2.12
@@ -64,7 +64,7 @@ for {
 ```
 
 
-# Usage 
+# Usage
 
 ## Step 1 - Define a `WebsocketBehavior`
 
@@ -85,8 +85,8 @@ A `WebsocketBehavior` instance has dedicated extension methods for transforming 
 (This is done via the underlying `copy` semantics of a Scala case class).
 
 ```scala
-  
-// Step 1 - define a base template with common behaviors 
+
+// Step 1 - define a base template with common behaviors
 val myBaseWsTemplate =
   WebsocketBehavior.empty
     .setOnOpen { connection =>
@@ -107,8 +107,8 @@ val mySpecificUseCase = myBaseWsTemplate
   }
 ```
 
-Note that we are only describing behavior via function definitions.  
-In order to use that behavior to process data, we must create a `Websocket` connection. 
+Note that we are only describing behavior via function definitions.
+In order to use that behavior to process data, we must create a `Websocket` connection.
 
 ## Step 2 - Create a `Websocket` instance
 
@@ -132,7 +132,7 @@ Interactions with the `Websocket` client object can happen outside of the predef
 ```scala
 val socket = Websocket("wss://echo.websocket.org", myBehavior)
 
-socket.connect() 
+socket.connect()
 
 socket.sendSync("example text")
 
@@ -164,23 +164,23 @@ println(sock.connect().map(_.message))
 val myHeaders = Map("Authorization" -> "Bearer xxxxxxxxxxxxxx")
 
 val socket = Websocket(
-  url = "wss://echo.websocket.org", 
-  behavior = WebsocketBehavior.empty, 
-  headers = myHeaders
+  url = "wss://echo.websocket.org",
+  behavior = WebsocketBehavior.empty,
+  requestHeaders = myHeaders
 )
 
 socket.connect()
 ```
 
-## Message Handling 
+## Message Handling
 
-According the WebSocket Protocol (RFC 6455) a websocket message may be sent either complete, or in chunks.  At this time, `websocket-scala` only deals in complete Text messages. 
+According the WebSocket Protocol (RFC 6455) a websocket message may be sent either complete, or in chunks.  At this time, `websocket-scala` only deals in complete Text messages.
 
-This does not mean that partial Text messages are not processed however.  `websocket-scala` takes advantage of a feature in [Project Tyrus](https://tyrus-project.github.io/) which caches partial messages and delivers the full payload to the event listener.  
+This does not mean that partial Text messages are not processed however.  `websocket-scala` takes advantage of a feature in [Project Tyrus](https://tyrus-project.github.io/) which caches partial messages and delivers the full payload to the event listener.
 
 #### Future Work
 
-- handle partial text message 
+- handle partial text message
 - support binary messages
 
 
@@ -198,7 +198,7 @@ sock.connect()
 ...
 ```
 
-## Building the project 
+## Building the project
 
 - build files for intellij
 ```

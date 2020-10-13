@@ -23,5 +23,15 @@ class ReadmeExamplesTest extends AnyFunSuite with Matchers {
     _ <- socket.close()
   } yield ()
 
+  val myHeaders = Map("Authorization" -> "Bearer xxxxxxxxxxxxxx")
+
+  val sock = Websocket(
+    url = "wss://echo.websocket.org",
+    behavior = WebsocketBehavior.empty,
+    requestHeaders = myHeaders
+  )
+
+  lazy val x = sock.connect()
+
   test("make sure readme example code compiles") {}
 }
