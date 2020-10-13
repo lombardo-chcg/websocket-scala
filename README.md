@@ -1,6 +1,7 @@
 # websocket-scala
 
 [![Actions Status](https://github.com/lombardo-chcg/websocket-scala/workflows/Scala%20CI/badge.svg)](https://github.com/lombardo-chcg/websocket-scala/workflows/Scala%20CI/badge.svg)
+[![Latest version](https://index.scala-lang.org/lombardo-chcg/websocket-scala/websocket-scala/latest.svg)](https://index.scala-lang.org/lombardo-chcg/websocket-scala/websocket-scala)
 
 `websocket-scala` is a simple Scala Websocket client library.  It is based on the `WebSocket` interface as defined in the [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket), which is available as a JavaScript object in HTML5-compliant web browsers.  The goal of the library is to provide the same simple & intuitive Websocket client api for JVM Scala apps. 
 
