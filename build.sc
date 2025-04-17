@@ -1,11 +1,11 @@
 import mill._, scalalib._, scalafmt._, publish._
 import mill.scalalib.publish.{Developer, License, PomSettings, VersionControl}
 
-val scalaVersions = List("2.11.12", "2.12.7", "2.13.2")
+val (scala211, scala212, scala213) = ("2.11.12", "2.12.20", "2.13.2")
 
-object client extends Cross[ClientModule](scalaVersions:_*)
+object client extends Cross[ClientModule](scala211, scala212, scala213)
 
-class ClientModule(val crossScalaVersion: String)  extends CrossScalaModule with PublishModule with ScalafmtModule {
+trait ClientModule extends CrossScalaModule with PublishModule with ScalafmtModule {
 
   override def ivyDeps = Agg(
   	ivy"javax.websocket:javax.websocket-client-api:1.1",
@@ -30,15 +30,15 @@ class ClientModule(val crossScalaVersion: String)  extends CrossScalaModule with
   )  
 }
 
-object examples extends Cross[ExamplesModule](scalaVersions:_*)
+object examples extends Cross[ExamplesModule](scala211, scala212, scala213)
 
-class ExamplesModule(val crossScalaVersion: String) extends CrossScalaModule with ScalafmtModule {
+trait ExamplesModule extends CrossScalaModule with ScalafmtModule {
 
   override def moduleDeps = Seq(client())
 
   override def mainClass = Some("runnable.HelloWorld")
 
-  object test extends Tests {
+  object test extends ScalaTests {
     override def ivyDeps = Agg(
       ivy"org.scalactic::scalactic:3.1.1",
       ivy"org.scalatest::scalatest:3.1.1",
@@ -47,6 +47,6 @@ class ExamplesModule(val crossScalaVersion: String) extends CrossScalaModule wit
       ivy"org.glassfish.tyrus:tyrus-container-grizzly-server:1.12"
     )
 
-    override def testFrameworks = Seq("org.scalatest.tools.Framework")
+    def testFramework: mill.T[String] = "org.scalatest.tools.Framework"
   }
 }

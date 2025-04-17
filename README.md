@@ -207,7 +207,7 @@ sock.connect()
 
 - run tests
 ```
-./mill examples.test
+./mill __.test
 ```
 
 ## License
