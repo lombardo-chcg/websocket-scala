@@ -1,9 +1,9 @@
 import mill._, scalalib._, scalafmt._, publish._
 import mill.scalalib.publish.{Developer, License, PomSettings, VersionControl}
 
-val (scala211, scala212, scala213) = ("2.11.12", "2.12.20", "2.13.2")
+val (scala211, scala212, scala213, scala3) = ("2.11.12", "2.12.20", "2.13.16", "3.3.5")
 
-object client extends Cross[ClientModule](scala211, scala212, scala213)
+object client extends Cross[ClientModule](scala211, scala212, scala213, scala3)
 
 trait ClientModule extends CrossScalaModule with PublishModule with ScalafmtModule {
 
@@ -30,7 +30,7 @@ trait ClientModule extends CrossScalaModule with PublishModule with ScalafmtModu
   )  
 }
 
-object examples extends Cross[ExamplesModule](scala211, scala212, scala213)
+object examples extends Cross[ExamplesModule](scala211, scala212, scala213, scala3)
 
 trait ExamplesModule extends CrossScalaModule with ScalafmtModule {
 
@@ -40,8 +40,8 @@ trait ExamplesModule extends CrossScalaModule with ScalafmtModule {
 
   object test extends ScalaTests {
     override def ivyDeps = Agg(
-      ivy"org.scalactic::scalactic:3.1.1",
-      ivy"org.scalatest::scalatest:3.1.1",
+      ivy"org.scalactic::scalactic:3.2.19",
+      ivy"org.scalatest::scalatest:3.2.19",
       ivy"javax.websocket:javax.websocket-api:1.1",
       ivy"org.glassfish.tyrus:tyrus-server:1.12",
       ivy"org.glassfish.tyrus:tyrus-container-grizzly-server:1.12"

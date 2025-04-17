@@ -34,11 +34,11 @@ class EchoTest extends AnyFunSuite with Eventually with BeforeAndAfterAll {
   val (server, echoEndpoint) = TestUtil.server
   val socket                 = Websocket(echoEndpoint, behavior)
 
-  override def beforeAll() {
+  override def beforeAll() = {
     server.start()
   }
 
-  override def afterAll() {
+  override def afterAll() = {
     server.stop()
   }
 
