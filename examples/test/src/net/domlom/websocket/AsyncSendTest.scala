@@ -7,10 +7,11 @@ import org.scalatest.funsuite.AnyFunSuite
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext
 
 class AsyncSendTest extends AnyFunSuite with Eventually with BeforeAndAfterAll {
 
-  private implicit val ec = scala.concurrent.ExecutionContext.global
+  private implicit val ec: ExecutionContext = ExecutionContext.global
 
   val (server, echoEndpoint) = TestUtil.server
 
@@ -22,12 +23,12 @@ class AsyncSendTest extends AnyFunSuite with Eventually with BeforeAndAfterAll {
   )
   var rcd = ""
 
-  override def beforeAll() {
+  override def beforeAll() = {
     server.start()
     socket.connect()
   }
 
-  override def afterAll() {
+  override def afterAll() = {
     server.stop()
     socket.close()
   }
