@@ -9,3 +9,4 @@ target/
 project/.sbtserver
 tags
 out
+publish.sh

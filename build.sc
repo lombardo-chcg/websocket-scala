@@ -12,7 +12,7 @@ trait ClientModule extends CrossScalaModule with PublishModule with ScalafmtModu
     ivy"org.glassfish.tyrus.bundles:tyrus-standalone-client:1.9"
   )
 
-  override def publishVersion = "0.0.3"
+  override def publishVersion = "0.0.4"
 
   override def artifactName = "websocket-scala"
 
