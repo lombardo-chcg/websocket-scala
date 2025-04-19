@@ -12,10 +12,11 @@ Supported scala versions:
 - 2.11
 - 2.12
 - 2.13
+- 3.x
 
 ##### sbt
 ```
-libraryDependencies += "net.domlom" %% "websocket-scala" % "0.0.3"
+libraryDependencies += "net.domlom" %% "websocket-scala" % "0.0.4"
 
 ```
 
@@ -23,12 +24,12 @@ libraryDependencies += "net.domlom" %% "websocket-scala" % "0.0.3"
 ```
 scalaC = "2.12"
 
-compile "net.domlom:websocket-scala_$scalaC:0.0.3"
+compile "net.domlom:websocket-scala_$scalaC:0.0.4"
 ```
 
 ##### ammonite
 ```
-import $ivy.`net.domlom::websocket-scala:0.0.3`
+import $ivy.`net.domlom::websocket-scala:0.0.4`
 ```
 
 ## `Hello World`
@@ -38,29 +39,38 @@ an example using `echo.websocket.org`:
 ```scala
 import net.domlom.websocket._
 
-// setup a behavior to println received messages
+val msg = s"Hello World"
+
+// Create a `WebsocketBehavior` instance and define event handlers.
+// This example uses a builder pattern but it's just a case class underneath.
 val behavior = {
   WebsocketBehavior.empty
-    .setOnMessage { (_, message) =>
-      println(s"Message from server: ${message.value}")
+    .setOnOpen { connection =>
+      println("Connection Open")
+      connection.send(msg)
     }
-    .setOnClose(reason => println(reason))
-  }
+    .setOnMessage { (connection, message) =>
+      println(s"Message from server: ${message.value}")
+
+      if (message.value == msg) {
+        println("Received echo - closing connection.")
+        connection.close()
+      }
+    }
+    .setOnClose { closeDetails =>
+      println(closeDetails)
+    }
+    .setOnError { (connection, throwable) =>
+      println(s"Exception - closing connection. ${throwable.getMessage}")
+      connection.close()
+    }
+}
 
 // initialize a client
 val socket = Websocket("wss://echo.websocket.org", behavior)
 
 // say hello
-for {
-  _ <- socket.connect()
-  _ <- socket.send(s"Hello World")
-  _ = Thread.sleep(500)
-  r <- socket.close()
-} yield r
-
-
-// Message from server: Hello World
-
+socket.connect()
 ```
 
 
@@ -178,11 +188,9 @@ According the WebSocket Protocol (RFC 6455) a websocket message may be sent eith
 
 This does not mean that partial Text messages are not processed however.  `websocket-scala` takes advantage of a feature in [Project Tyrus](https://tyrus-project.github.io/) which caches partial messages and delivers the full payload to the event listener.
 
-#### Future Work
+## Async
 
-- handle partial text message
-- support binary messages
-
+Scala Futures are supported via `connection.sendAsync()` which returns a `Future[WsResponse]`. 
 
 ## Debug Mode
 
@@ -200,15 +208,28 @@ sock.connect()
 
 ## Building the project
 
-- build files for intellij
+- run example script
 ```
-./mill mill.scalalib.GenIdea/idea
+./mill examples[3.3.5].runMain "runnable.HelloWorld"     # versions: 2.11.12, 2.12.20, 2.13.16, 3.3.5
 ```
 
 - run tests
 ```
 ./mill __.test
 ```
+
+- build files for intellij
+```
+./mill mill.scalalib.GenIdea/idea
+```
+
+#### TODO
+
+- handle partial text message
+- support binary messages
+- heartbeat / keepalive mechanism
+- auto-reconnect with backoff
+- cookbook
 
 ## License
 

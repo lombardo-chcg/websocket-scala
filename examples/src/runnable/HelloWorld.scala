@@ -7,26 +7,37 @@ object HelloWorld {
     // example 1
     import net.domlom.websocket._
 
-    // setup a behavior to println received messages
+    // Create a WebsocketBehavior instance and define handlers for Websocket lifecycle events.
+    // This example uses a builder pattern but it is just a case class underneath.
+    val msg = s"Hello World"
     val behavior = {
       WebsocketBehavior.empty
-        .setOnMessage { (_, message) =>
-          println(s"Message from server: ${message.value}")
+        .setOnOpen { connection =>
+          println("Connection Open")
+          connection.send(msg)
         }
-        .setOnClose(reason => println(reason))
+        .setOnMessage { (connection, message) =>
+          println(s"Message from server: ${message.value}")
+
+          if (message.value == msg) {
+            println("Received echo - closing connection.")
+            connection.close()
+          }
+        }
+        .setOnClose { closeDetails =>
+          println(closeDetails)
+        }
+        .setOnError { (connection, throwable) =>
+          println(s"Exception - closing connection. ${throwable.getMessage}")
+          connection.close()
+        }
     }
 
     // initialize a client
     val socket = Websocket("wss://echo.websocket.org", behavior)
 
     // say hello
-    for {
-      _ <- socket.connect()
-      _ <- socket.send(s"Hello World")
-      _ = Thread.sleep(500)
-      r <- socket.close()
-    } yield r
-    // Message from server: Hello World
+    socket.connect()
 
     // example 2
     val sock = Websocket("wss://echo.websocket.org", behavior)
