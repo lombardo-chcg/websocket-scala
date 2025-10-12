@@ -4,12 +4,12 @@ import java.net.URI
 
 import javax.websocket.MessageHandler.Whole
 import javax.websocket._
-import net.domlom.websocket.{WebsocketBehavior, WsMessage, WsResponse}
-import net.domlom.websocket.model.{ConnectionClosedDetails, Websocket}
+import net.domlom.websocket.{ WebsocketBehavior, WsMessage, WsResponse }
+import net.domlom.websocket.model.{ ConnectionClosedDetails, Websocket }
 import org.glassfish.tyrus.client.ClientManager
 
-import scala.concurrent.{ExecutionContext, Future, Promise}
-import scala.util.{Failure, Try}
+import scala.concurrent.{ ExecutionContext, Future, Promise }
+import scala.util.{ Failure, Try }
 
 class WebsocketBase(
     val url: String,
@@ -82,8 +82,7 @@ class WebsocketBase(
   private def wrapUnsafe[A](tag: String, f: () => A): Try[WsResponse] =
     Try(f()).map(_ => WsResponse(tag))
 
-  private def wrapJavaFuture[T](tag: String, f: java.util.concurrent.Future[T])(
-      implicit
+  private def wrapJavaFuture[T](tag: String, f: java.util.concurrent.Future[T])(implicit
       ec: ExecutionContext
   ): Future[WsResponse] = {
     val p = Promise[T]()

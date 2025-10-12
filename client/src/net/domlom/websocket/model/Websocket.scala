@@ -2,7 +2,7 @@ package net.domlom.websocket.model
 
 import net.domlom.websocket.WsResponse
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ ExecutionContext, Future }
 import scala.util.Try
 
 trait Websocket {
@@ -12,8 +12,7 @@ trait Websocket {
 
   def sendSync(message: String): Try[WsResponse]
 
-  def sendAsync(message: String)(
-      implicit
+  def sendAsync(message: String)(implicit
       ec: ExecutionContext
   ): Future[WsResponse]
 
