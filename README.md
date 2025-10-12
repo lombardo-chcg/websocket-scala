@@ -32,6 +32,8 @@ compile "net.domlom:websocket-scala_$scalaC:0.0.4"
 import $ivy.`net.domlom::websocket-scala:0.0.4`
 ```
 
+# Examples
+
 ## `Hello World`
 
 an example using `echo.websocket.org`:
@@ -73,6 +75,11 @@ val socket = Websocket("wss://echo.websocket.org", behavior)
 socket.connect()
 ```
 
+## Discord Bot
+
+Here's a blog post that discusses how to implement a basic Discord Bot using this library.  A full example is included at the end of the post.
+
+[https://lombardo-chcg.github.io/tools/2025/06/20/Discord-Bot-in-Scala.html](https://lombardo-chcg.github.io/tools/2025/06/20/Discord-Bot-in-Scala.html)
 
 # Usage
 
