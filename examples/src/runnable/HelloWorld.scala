@@ -9,7 +9,7 @@ object HelloWorld {
 
     // Create a WebsocketBehavior instance and define handlers for Websocket lifecycle events.
     // This example uses a builder pattern but it is just a case class underneath.
-    val msg = s"Hello World"
+    val msg      = s"Hello World"
     val behavior = {
       WebsocketBehavior.empty
         .setOnOpen { connection =>

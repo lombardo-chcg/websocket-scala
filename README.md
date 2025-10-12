@@ -223,6 +223,11 @@ sock.connect()
 ./mill mill.scalalib.GenIdea/idea
 ```
 
+- scalafmt
+```
+./mill __.reformat
+```
+
 #### TODO
 
 - handle partial text message

@@ -1,7 +1,7 @@
 package net.domlom.websocket.lib
 
 import javax.websocket.ClientEndpointConfig
-import org.glassfish.tyrus.client.{ClientManager, ClientProperties, SslContextConfigurator, SslEngineConfigurator}
+import org.glassfish.tyrus.client.{ ClientManager, ClientProperties, SslContextConfigurator, SslEngineConfigurator }
 
 object Interop {
 
