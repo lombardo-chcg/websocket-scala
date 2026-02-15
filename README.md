@@ -225,11 +225,6 @@ sock.connect()
 ./mill __.test
 ```
 
-- build files for intellij
-```
-./mill mill.scalalib.GenIdea/idea
-```
-
 - scalafmt
 ```
 ./mill __.reformat

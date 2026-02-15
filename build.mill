@@ -1,20 +1,23 @@
-import mill._, scalalib._, scalafmt._, publish._
+//| mill-version: 1.1.2
+
+package build
+
+import mill.*, scalalib.*, publish.*
+import mill.scalalib.scalafmt.ScalafmtModule
 import mill.scalalib.publish.{Developer, License, PomSettings, VersionControl}
 
 val (scala211, scala212, scala213, scala3) = ("2.11.12", "2.12.20", "2.13.16", "3.3.5")
 
 object client extends Cross[ClientModule](scala211, scala212, scala213, scala3)
-
 trait ClientModule extends CrossScalaModule with PublishModule with ScalafmtModule {
-
-  override def ivyDeps = Agg(
-  	ivy"javax.websocket:javax.websocket-client-api:1.1",
-    ivy"org.glassfish.tyrus.bundles:tyrus-standalone-client:1.9"
+  def mvnDeps = Seq(
+    mvn"javax.websocket:javax.websocket-client-api:1.1",
+    mvn"org.glassfish.tyrus.bundles:tyrus-standalone-client:1.9"
   )
 
-  override def publishVersion = "0.0.4"
+  def publishVersion = "0.0.4"
 
-  override def artifactName = "websocket-scala"
+  def artifactName = "websocket-scala"
 
   def pomSettings = PomSettings(
     description = "Scala Websocket Client Library",
@@ -27,26 +30,25 @@ trait ClientModule extends CrossScalaModule with PublishModule with ScalafmtModu
     developers = Seq(
       Developer("lombardo-chcg", "Dominick Lombardo", "https://github.com/lombardo-chcg")
     )
-  )  
+  )
 }
 
 object examples extends Cross[ExamplesModule](scala211, scala212, scala213, scala3)
-
 trait ExamplesModule extends CrossScalaModule with ScalafmtModule {
 
-  override def moduleDeps = Seq(client())
+  def moduleDeps = Seq(client(crossScalaVersion))
 
-  override def mainClass = Some("runnable.HelloWorld")
+  def mainClass = Some("runnable.HelloWorld")
 
   object test extends ScalaTests {
-    override def ivyDeps = Agg(
-      ivy"org.scalactic::scalactic:3.2.19",
-      ivy"org.scalatest::scalatest:3.2.19",
-      ivy"javax.websocket:javax.websocket-api:1.1",
-      ivy"org.glassfish.tyrus:tyrus-server:1.12",
-      ivy"org.glassfish.tyrus:tyrus-container-grizzly-server:1.12"
+    def mvnDeps = Seq(
+      mvn"org.scalactic::scalactic:3.2.19",
+      mvn"org.scalatest::scalatest:3.2.19",
+      mvn"javax.websocket:javax.websocket-api:1.1",
+      mvn"org.glassfish.tyrus:tyrus-server:1.12",
+      mvn"org.glassfish.tyrus:tyrus-container-grizzly-server:1.12"
     )
 
-    def testFramework: mill.T[String] = "org.scalatest.tools.Framework"
+    def testFramework = "org.scalatest.tools.Framework"
   }
 }
